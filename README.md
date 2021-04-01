@@ -400,18 +400,18 @@ traceroute 8.8.8.8
 
 | De Client\_in\_LAN à | OK/KO | Commentaires et explications |
 | :---                 | :---: | :---                         |
-| Interface DMZ du FW  |       |                              |
-| Interface LAN du FW  |       |                              |
-| Client LAN           |       |                              |
-| Serveur WAN          |       |                              |
+| Interface DMZ du FW  | KO    | INPUT et OUTPUT du firewwall n'ont pas de regles, donc DROP par défault |
+| Interface LAN du FW  | KO    | INPUT et OUTPUT du firewwall n'ont pas de regles, donc DROP par défault|
+| Client LAN           | OK    | Passe par Loopback           |
+| Serveur WAN          | OK    | FORWARD permit par le Firewall |
 
 
 | De Server\_in\_DMZ à | OK/KO | Commentaires et explications |
 | :---                 | :---: | :---                         |
-| Interface DMZ du FW  |       |                              |
-| Interface LAN du FW  |       |                              |
-| Serveur DMZ          |       |                              |
-| Serveur WAN          |       |                              |
+| Interface DMZ du FW  |  KO   | INPUT et OUTPUT du firewwall n'ont pas de regles, donc DROP par défault |
+| Interface LAN du FW  |  KO   | INPUT et OUTPUT du firewwall n'ont pas de regles, donc DROP par défault |
+| Serveur DMZ          |  OK   | Passe par le Loopback |
+| Serveur WAN          |  KO   | Pas de regle icmp pour DMZ <-> WAN, donc DROP par défault |
 
 
 ## Règles pour le protocole DNS
