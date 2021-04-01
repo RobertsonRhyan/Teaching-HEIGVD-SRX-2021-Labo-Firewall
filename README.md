@@ -443,6 +443,15 @@ Commandes iptables :
 
 ```bash
 LIVRABLE : Commandes iptables
+# DNS
+
+# UDP
+iptables -A FORWARD -p udp -s 192.168.100.0/24 -o eth0 --dport 53 -j ACCEPT
+iptables -A FORWARD -p udp -d 192.168.100.0/24 -i eth0 --sport 53 -j ACCEPT
+# TCP
+iptables -A FORWARD -p tcp -s 192.168.100.0/24 -o eth0 --dport 53 -j ACCEPT
+iptables -A FORWARD -p tcp -d 192.168.100.0/24 -i eth0 --sport 53 -j ACCEPT
+
 ```
 
 ---
@@ -455,7 +464,7 @@ LIVRABLE : Commandes iptables
 ---
 
 **LIVRABLE : capture d'écran de votre ping.**
-
+![](img/Livrable_05.png)
 ---
 
 <ol type="a" start="6">
