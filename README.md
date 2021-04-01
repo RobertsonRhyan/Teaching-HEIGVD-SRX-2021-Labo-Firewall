@@ -126,14 +126,29 @@ _Lors de la définition d'une zone, spécifier l'adresse du sous-réseau IP avec
 **LIVRABLE : Remplir le tableau**
 
 | Adresse IP source | Adresse IP destination | Type | Port src | Port dst | Action |
-| :---:             | :---:                  | :---:| :------: | :------: | :----: |
-| 192.168.100.0     | any                    | ICMP echo request |    /      |    /      |        |
-|                   |                        |      |          |          |        |
-|                   |                        |      |          |          |        |
-|                   |                        |      |          |          |        |
-|                   |                        |      |          |          |        |
-|                   |                        |      |          |          |        |
-|                   |                        |      |          |          |        |
+| :---:             | :---:                  | :---:| :------: | :------: | ------ |
+| WAN | 192.168.100.0/24 | TCP/UDP | 53 | * | ACCEPT |
+| 192.168.100.0/24 | WAN | TCP/UDP | * | 53 | ACCEPT |
+| 192.168.100.0/24  | *                    | ICMP echo request |    *      |    *     | ACCEPT |
+| * | 192.168.100.0/24 | ICMP echo reply | * | * | ACCEPT |
+| 192.168.200.0/24 | 192.168.100.0/24 | ICMP echo request | * | * | ACCEPT |
+| 192.168.100.0/24 | 192.168.200.0/24 | ICMP echo reply | * | * | ACCEPT |
+| 192.168.100.0/24 | * | TCP | * | 80 | ACCEPT |
+| * | 192.168.100.0/24 | TCP | 80 | * | ACCEPT |
+| 192.168.100.0/24 | * | TCP | * | 8080 | ACCEPT |
+| * | 192.168.100.0/24 | TCP | 443 | * | ACCEPT |
+| 192.168.100.0/24 | * | TCP | * | 8080 | ACCEPT |
+| * | 192.168.100.0/24 | TCP | 443 | * | ACCEPT |
+| 192.168.200.3/24 | 192.168.100.0/24 | TCP | 80 | * | ACCEPT |
+| 192.168.100.0/24 | 192.168.200.3/24 | TCP | * | 80 | ACCEPT |
+| 192.168.200.3 | WAN | TCP | 80 | * | ACCEPT |
+| WAN | 192.168.200.3 | TCP | * | 80 | ACCEPT |
+| 192.168.100.0/24 | 192.168.200.3/24 | TCP | * | 23 | ACCEPT |
+| 192.168.200.3/24 | 192.168.100.0/24 | TCP | 23 | * | ACCEPT |
+| 192.168.100.0/24 | * | * | * | * | DROP |
+| * | 192.168.100.0/24 | * | * | * | DROP |
+| 192.168.200.3/24 | * | * | * | * | DROP |
+| * | 192.168.200.3/24 | * | * | * | DROP |
 
 ---
 
