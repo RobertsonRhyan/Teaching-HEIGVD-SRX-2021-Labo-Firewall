@@ -388,6 +388,7 @@ traceroute 8.8.8.8
 
 ---
 **LIVRABLE : capture d'écran du traceroute et de votre ping vers l'Internet. Il ne devrait pas y avoir des _Redirect Host_ dans les réponses au ping !**
+![](img/question_b.png)
 
 ---
 
