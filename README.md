@@ -490,7 +490,7 @@ iptables -A FORWARD -p tcp -d 192.168.100.0/24 -i eth0 --sport 53 -j ACCEPT
 ---
 **Réponse**
 
-**LIVRABLE : Votre réponse ici...**
+**LIVRABLE : Le client de peut pas faire de requêtes DNS car le port 53 est bloqué par défault.  Il ne peut donc pas résoudre l'adresse IP de google.ch**
 
 ---
 
@@ -511,6 +511,15 @@ Commandes iptables :
 
 ```bash
 LIVRABLE : Commandes iptables
+# HTTP & HTTPS
+
+## HTTP
+iptables -A FORWARD -p tcp -d 192.168.100.0/24 -i eth0 --match multiport --sports 80,8080 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.100.0/24 -o eth0 --match multiport --dports 80,8080 -j ACCEPT
+
+## HTTPS
+iptables -A FORWARD -p tcp -d 192.168.100.0/24 -i eth0 --sport 443 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.100.0/24 -o eth0 --dport 443 -j ACCEPT
 ```
 
 ---
@@ -523,6 +532,12 @@ Commandes iptables :
 
 ```bash
 LIVRABLE : Commandes iptables
+# Allow port 80 from WAN and LAN
+iptables -A FORWARD -p tcp -d 192.168.200.3 -i eth0 --dport 80 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.200.3 -o eth0 --sport 80 -j ACCEPT
+
+iptables -A FORWARD -p tcp -d 192.168.200.3 -s 192.168.100.0/24 --dport 80 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.200.3 -d 192.168.100.0/24 --sport 80 -j ACCEPT
 ```
 ---
 
@@ -534,6 +549,8 @@ LIVRABLE : Commandes iptables
 ---
 
 **LIVRABLE : capture d'écran.**
+![](img/wgetDMZ.png)
+
 
 ---
 
@@ -551,6 +568,13 @@ Commandes iptables :
 
 ```bash
 LIVRABLE : Commandes iptables
+# SSH
+
+iptables -A FORWARD -p tcp -s 192.168.200.3 -d 192.168.100.3 --sport 22 -j ACCEPT
+iptables -A FORWARD -p tcp -d 192.168.200.3 -s 192.168.100.3 --dport 22 -j ACCEPT
+
+iptables -A INPUT   -p tcp -s 192.168.100.3 --dport 22 -j ACCEPT
+iptables -A OUTPUT  -p tcp -d 192.168.100.3 --sport 22 -j ACCEPT
 ```
 
 ---
@@ -565,6 +589,8 @@ ssh root@192.168.200.3
 
 **LIVRABLE : capture d'écran de votre connexion ssh.**
 
+![](img/Livrable_07.png)
+
 ---
 
 <ol type="a" start="9">
@@ -575,7 +601,7 @@ ssh root@192.168.200.3
 ---
 **Réponse**
 
-**LIVRABLE : Votre réponse ici...**
+**LIVRABLE : Permet l'acceder à distance, utile pour les serveurs qui n'ont souvent pas d'interface graphique et sont pas à notre place de travail  **
 
 ---
 
@@ -583,12 +609,10 @@ ssh root@192.168.200.3
   <li>En général, à quoi faut-il particulièrement faire attention lors de l'écriture des règles du pare-feu pour ce type de connexion ? 
   </li>                                  
 </ol>
-
-
 ---
 **Réponse**
 
-**LIVRABLE : Votre réponse ici...**
+**LIVRABLE : Limiter l'accès à des clients précis**
 
 ---
 
@@ -604,5 +628,7 @@ A présent, vous devriez avoir le matériel nécessaire afin de reproduire la ta
 ---
 
 **LIVRABLE : capture d'écran avec toutes vos règles.**
+
+![](img/Final.png)
 
 ---
