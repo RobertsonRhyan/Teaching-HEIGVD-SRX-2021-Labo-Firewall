@@ -352,6 +352,18 @@ Commandes iptables :
 
 ```bash
 LIVRABLE : Commandes iptables
+# From LAN to DMZ
+iptables -A FORWARD -p ICMP --icmp-type echo-request -s 192.168.100.0/24 -d 192.168.200.0/24 -j ACCEPT
+iptables -A FORWARD -p ICMP --icmp-type echo-reply -s 192.168.200.0/24 -d 192.168.100.0/24 -j ACCEPT
+
+# From LAN to WAN (all)
+iptables -A FORWARD -p ICMP --icmp-type echo-request -s 192.168.100.0/24 -o eth0 -j ACCEPT
+iptables -A FORWARD -p ICMP --icmp-type echo-reply -d 192.168.100.0/24 -i eth0 -j ACCEPT
+
+# From DMZ to LAN
+iptables -A FORWARD -p ICMP --icmp-type echo-request -s 192.168.200.0/24 -d 192.168.100.0/24 -j ACCEPT
+iptables -A FORWARD -p ICMP --icmp-type echo-reply -s 192.168.100.0/24 -d 192.168.200.0/24 -j ACCEPT
+
 ```
 ---
 
